@@ -1,5 +1,9 @@
 package com.example.demo.Models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,11 +15,11 @@ public class Ingredients {
     private Long id;
 
     @Column(name = "ingredients")
-    private  String ingredients;
+    private  String ingredients ;
 
-    @OneToOne(mappedBy = "ingredients")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private Food food;
-
 
     public String getIngredients() {
         return ingredients;
@@ -25,15 +29,6 @@ public class Ingredients {
         this.ingredients = ingredients;
     }
 
-    public Food getFood() {
-        return food;
-    }
-
-    public void setFood(Food food) {
-        this.food = food;
-    }
-
-
 
     public Long getId() {
         return id;
@@ -41,5 +36,14 @@ public class Ingredients {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Food getFood() {
+        return food;
+    }
+
+
+    public void setFood(Food food) {
+        this.food = food;
     }
 }
