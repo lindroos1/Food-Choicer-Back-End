@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+
+  custommysql:
+    image: simoooo1111/foodchoicerf:mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=food_choicer
+    ports:
+      - 3306:3306
+    volumes:
+      - ./Mysql:/docker-entrypoint-initdb.d
+    cap_add:
+      - SYS_NICE 
+
+  springcompose:
+    image: simoooo1111/foodchoicerb:springcompose
+    restart: on-failure
+    depends_on:
+      - custommysql
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_HOST=mysql
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=food_choicer
+      - DATABASE_PORT=3306

@@ -19,6 +19,7 @@ public class IngredientsService {
     /*
     you have ingredients and want to find all foods containing them
      */
+
     public Set<Food> findFoodsbyIngredients(List<String> ingr){
         Set<Food> food = new HashSet<>();
         for(var b:ingr){
@@ -28,4 +29,11 @@ public class IngredientsService {
         }
         return food;
     }
+
+    /*
+    public Set<Food> findFoodsbyIngredients(List<Ingredients> ingr){
+
+    }
+
+     */
 }

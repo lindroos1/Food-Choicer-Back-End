@@ -11,5 +11,5 @@ import java.util.List;
 public interface IngredientsRepository extends JpaRepository<Ingredients, Long> {
     List<Ingredients> findByingredientsContaining(String ingredients);
     List<Ingredients> findByingredients(String ingredients);
-
+   // List<Ingredients> findByingredients(Ingredients ingredients);
 }

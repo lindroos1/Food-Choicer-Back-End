@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class FoodController {
     @Autowired
     FoodService foodService;
@@ -24,25 +26,33 @@ public class FoodController {
     }
 
 
-    @GetMapping("getFoodByIngredients")
-    public Set<Food> getFoodByIngredients(@RequestParam List<String> ingr){
+    /*
+        returns all foods containing any single value
+     */
+    @PostMapping("getFoodByIngredients")
+    public Set<Food> getFoodByIngredients(@RequestBody List<String> ingr){
         return ingredientsService.findFoodsbyIngredients(ingr);
     }
 
 
     @GetMapping("getRandomFood")
-    public Optional<Food> getRandomFood(){
+    public Food getRandomFood(){
         //get all
         var temp = foodService.getAll();
         //use random to get value between 0 and temp.length-1
-        Random random = new Random();
-        Long index = (long) random.nextInt(temp.size() - 1);
-        return foodService.getFoodById(index);
+        if(temp.size() > 0) {
+            Random random = new Random();
+            int index =  random.nextInt(temp.size());
+            return temp.get(index);
+        }
+        return null;
     }
 
     @PostMapping("addFood")
     public void addFood(@RequestBody Food food){
-         foodService.save(food);
+       if(food.getFoodName().length() > 0 && food.getIngredients().size() > 0){
+           foodService.save(food);
+       }
     }
 
     @GetMapping("getAll")
